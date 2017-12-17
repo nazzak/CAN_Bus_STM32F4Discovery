@@ -31,9 +31,8 @@ Below the pin setup :
 SN65HVD230_D_PIN  <==>  PD1/CAN1-TX  
 SN65HVD230_R_PIN  <==>  PD0/CAN1-RX
 
-PA0 (blue button) is used in IT mode, to send the message over the CAN Bus.  
-the state of the LEDs will act according to the message received.  
-
+PA0 (blue button) is used in IT mode, to send the message over the CAN Bus.  
+The state of the LEDs will act according to the message received.   
 Connect the 2 bords by their CAN transceiver :  
 
 BORD1_CAN_H  <==>  BORD2_CAN_H  
