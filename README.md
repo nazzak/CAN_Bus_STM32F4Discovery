@@ -5,7 +5,7 @@
 This project shows how to deal with the CAN peripheral on STM32F4
 
 ## 1. Build and Test Environment
-Os : Mac os x High Sierra
+Os : Mac os x High Sierra. 
 IDE : System Workbench (SW4STM32) + STM32CubeMX + HAL V1.18.0. 
 2 x stm32f4discovery boards and 2 x stm32f4discovery shields. 
 2 x USB cables to power and load a program into the target. 
