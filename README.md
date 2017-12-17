@@ -38,6 +38,6 @@ BORD1_CAN_H  <==>  BORD2_CAN_H
 BORD1_CAN_L  <==>  BORD2_CAN_L
 
 ## 5. How to use the software
-The software can handle the Std and the Ext message mode.  
+The software can handle the Std and the Ext message ID.  
 Edit the define directive on the line 52 in the main.c  
 Don't forget to swap the messages ID between the 2 boards before programming them.  
