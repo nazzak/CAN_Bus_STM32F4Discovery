@@ -43,9 +43,14 @@
 
 /* USER CODE BEGIN Includes */
 #include <stdlib.h>
-#define RXMSG_STDID 0x456	//received message ID
-#define TXMSG_STDID 0x123	//sent message ID
-#define OTHER_STDID 0x789	//other message ID (added on a second filter)
+#define RXMSG_STDID 0x456	//received message ID (Std)
+#define TXMSG_STDID 0x123	//sent message ID (Std)
+
+#define RXMSG_EXTID 0x67890	//received message ID (Ext)
+#define TXMSG_EXTID 0x12345	//sent message ID (Ext)
+
+#define EXTID	//chose between messages ID Lentgh STDID or EXTID
+
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -110,10 +115,14 @@ int main(void)
 
 	Filter_Configuration(&FilterCfg);
 
+#ifdef STDID
 	hcan1.pTxMsg->StdId = TXMSG_STDID;
-	hcan1.pTxMsg->ExtId = 1;
-	hcan1.pTxMsg->RTR = CAN_RTR_DATA;
 	hcan1.pTxMsg->IDE = CAN_ID_STD;
+#elif defined EXTID
+	hcan1.pTxMsg->ExtId = TXMSG_EXTID;
+	hcan1.pTxMsg->IDE = CAN_ID_EXT;
+#endif
+	hcan1.pTxMsg->RTR = CAN_RTR_DATA;
 	hcan1.pTxMsg->DLC = 1;
 
 	HAL_CAN_Receive_IT(&hcan1, CAN_FIFO0);	//Enable interrupt on CAN Rx
@@ -259,18 +268,17 @@ static void Filter_Configuration(CAN_FilterConfTypeDef *FC)
 	FC->FilterNumber = 0;	//First filter
 	FC->FilterMode = CAN_FILTERMODE_IDLIST;
 	FC->FilterScale = CAN_FILTERSCALE_32BIT;
-	FC->FilterIdHigh = RXMSG_STDID << 5;
-	FC->FilterIdLow = 1;
+#ifdef STDID
+	FC->FilterIdHigh = RXMSG_STDID << 5;	//configure STID[10:0], page 1091 - RM0090
+#elif defined EXTID
+	FC->FilterIdLow = ((RXMSG_EXTID << 3) | CAN_ID_EXT) & 0x0000FFFF;	// configure EXID[12:0] & IDE, page 1091 - RM0090
+	FC->FilterIdHigh = (RXMSG_EXTID >> (16 - 3)) & 0x0000FFFF;	//configure EXID[17:13]
+#endif
 	FC->FilterMaskIdHigh = 0;
 	FC->FilterMaskIdLow = 0;
 	FC->FilterFIFOAssignment = 0;
-	FC->BankNumber = 1;
+	FC->BankNumber = 0;
 	FC->FilterActivation = ENABLE;
-	HAL_CAN_ConfigFilter(&hcan1, FC);
-
-	FC->FilterNumber = 2;	//Second filter
-	FC->FilterIdHigh = OTHER_STDID << 5;
-	FC->BankNumber = 4;
 	HAL_CAN_ConfigFilter(&hcan1, FC);
 }
 
