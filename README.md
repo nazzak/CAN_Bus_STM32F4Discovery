@@ -26,7 +26,7 @@ IDE : System Workbench (SW4STM32) + STM32CubeMX + HAL V1.18.0.
 ## 4. Hardware setup
 The shield board embed a CAN Bus transceiver SN65HVD230 from Texas Instruments.
 The Pins are connected as below :
-SN65HVD230_D_PIN  <==>  PD1/CAN1-TX
+SN65HVD230_D_PIN  <==>  PD1/CAN1-TX  
 SN65HVD230_R_PIN  <==>  PD0/CAN1-RX
 
 PA0 is used in interruption mode to send the message over the CAN Bus.
@@ -34,7 +34,7 @@ the state of the LEDs will act according to the message received.
 
 Connect the 2 bords by their CAN transceiver :
 
-BORD1_CAN_H  <==>  BORD2_CAN_H
+BORD1_CAN_H  <==>  BORD2_CAN_H  
 BORD1_CAN_L  <==>  BORD2_CAN_L
 
 ## 5. How to use the software
